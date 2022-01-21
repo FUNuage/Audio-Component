@@ -12,9 +12,9 @@ class WordAnimation extends FlameGame with TapDetector {
       SpriteAnimationData.sequenced(
           amount: 20,
           textureSize: Vector2.all(140),
-          stepTime: 0.1,
+          stepTime: 0.2,
           amountPerRow: 4,
-          loop: true),
+          loop: false),
     );
 
     final spriteSize = Vector2.all(150.0);
@@ -22,8 +22,8 @@ class WordAnimation extends FlameGame with TapDetector {
       animation: animation,
       size: spriteSize,
     );
-    animationComponent.x = size.x / 2 - spriteSize.x;
-    animationComponent.y = spriteSize.y;
+    animationComponent.x = 480;
+    animationComponent.y = 180;
 
     add(animationComponent);
   }

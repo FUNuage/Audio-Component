@@ -2,10 +2,13 @@ import 'dart:ui';
 
 import 'package:flame/game.dart';
 import 'word_animation.dart';
+import 'hero_movement.dart';
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flame/palette.dart';
+
 import 'background.dart';
+import 'direction.dart';
 
 class AudioComponentGame extends FlameGame with ScrollDetector, ScaleDetector {
   final Vector2 viewportResolution;
@@ -16,6 +19,7 @@ class AudioComponentGame extends FlameGame with ScrollDetector, ScaleDetector {
 
   final WordAnimation _wordAnimation = WordAnimation();
   final Background _background = Background();
+  final HeroMovement _heroMovement = HeroMovement();
 
   @override
   Future<void> onLoad() async {
@@ -27,5 +31,10 @@ class AudioComponentGame extends FlameGame with ScrollDetector, ScaleDetector {
 
     await add(_background);
     add(_wordAnimation);
+    add(_heroMovement);
+  }
+
+  void onJoypadDirectionChanged(Direction direction) {
+    _heroMovement.direction = direction;
   }
 }
