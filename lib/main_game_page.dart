@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 
 import 'audio_component_game.dart';
-import 'joypad.dart';
-import 'direction.dart';
+import 'Hero/joypad.dart';
+import 'Hero/direction.dart';
 
 class MainGamePage extends StatefulWidget {
   const MainGamePage({Key? key}) : super(key: key);
