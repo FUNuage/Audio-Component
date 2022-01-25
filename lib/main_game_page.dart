@@ -1,3 +1,4 @@
+import 'package:audio_component_v2/Audio%20Component/speech_analysis.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 
@@ -23,18 +24,23 @@ class MainGameState extends State<MainGamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(0, 0, 0, 1),
-      body: Stack(children: [
-        GameWidget(game: game),
-        Align(
-          alignment: Alignment.bottomRight,
+        body: Stack(children: [
+      GameWidget(game: game),
+      Positioned(
+          bottom: 0,
+          left: 0,
           child: Padding(
             padding: const EdgeInsets.all(32.0),
-            child: Joypad(onDirectionChanged: onJoypadDirectionChanged),
-          ),
-        )
-      ]),
-    );
+            child: SpeechAnalysis(),
+          )),
+      Align(
+        alignment: Alignment.bottomRight,
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Joypad(onDirectionChanged: onJoypadDirectionChanged),
+        ),
+      ),
+    ]));
   }
 
   void onJoypadDirectionChanged(Direction direction) {

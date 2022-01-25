@@ -30,7 +30,7 @@ class _SpeechAnalysisState extends State<SpeechAnalysis> {
   }
 
   /// Each time to start a speech recognition session
-  void startListening() async {
+  void _startListening() async {
     await _speechToText.listen(onResult: _onSpeechResult);
     setState(() {});
   }
@@ -69,33 +69,46 @@ class _SpeechAnalysisState extends State<SpeechAnalysis> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Expanded(
-          child: Container(
-            padding: EdgeInsets.all(16),
-            child: Text(
-                // If listening is active show the recognized words
-                _speechToText.isListening
-                    ? ''
-                    //? '$_lastWords'
-                    // If listening isn't active but could be tell the user
-                    // how to start it, otherwise indicate that speech
-                    // recognition is not yet ready or not supported on
-                    // the target device
-                    : _speechEnabled
-                        ? 'Tap the microphone to start listening...'
-                        : 'Speech not available',
-                style: const TextStyle(fontSize: 20)),
-          ),
-        ),
-        Expanded(
-            child: Container(
-                child: Text(
-          _pronounciationResult,
-          style: const TextStyle(fontSize: 50),
-        )))
-      ],
-    );
+    return Align(
+        alignment: Alignment.centerLeft,
+        child: Row(
+          children: <Widget>[
+            Align(
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: _speechToText.isNotListening
+                          ? _startListening
+                          : _stopListening,
+
+                      // child: Icon(_speechToText.isNotListening
+                      //     ? Icons.mic_off
+                      //     : Icons.mic),
+                      child: Text(_speechToText.isNotListening
+                          ? 'press to speak'
+                          : 'try again'),
+                    ))),
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: Text(_speechToText.isListening ? '$_lastWords' : '',
+                  style: const TextStyle(color: Colors.white, fontSize: 20)),
+            ),
+            Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Text(
+                      _speechEnabled
+                          ? '(Speech is available)'
+                          : '(Speech not available)',
+                      style: const TextStyle(color: Colors.grey, fontSize: 16)),
+                )),
+            // Text(
+            //   _pronounciationResult,
+            //   style: const TextStyle(color: Colors.white, fontSize: 50),
+            // ),
+          ],
+        ));
   }
 }
