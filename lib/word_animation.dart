@@ -1,30 +1,36 @@
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:flame/input.dart';
 
-class WordAnimation extends FlameGame with TapDetector {
+import '../animations/apple.dart';
+import '../animations/banana.dart';
+import '../animations/orange.dart';
+
+class WordAnimation extends FlameGame {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final animation = await loadSpriteAnimation(
-      'apple.png',
-      SpriteAnimationData.sequenced(
-          amount: 20,
-          textureSize: Vector2.all(140),
-          stepTime: 0.2,
-          amountPerRow: 4,
-          loop: false),
-    );
+    // final appleAnimation = await loadSpriteAnimation(
+    //   'apple.png',
+    //   SpriteAnimationData.sequenced(
+    //       amount: 20,
+    //       textureSize: Vector2.all(140),
+    //       stepTime: 0.2,
+    //       amountPerRow: 4,
+    //       loop: false),
+    // );
 
-    final spriteSize = Vector2.all(150.0);
-    final animationComponent = SpriteAnimationComponent(
-      animation: animation,
-      size: spriteSize,
-    );
-    animationComponent.x = 480;
-    animationComponent.y = 180;
+    // final spriteSize = Vector2.all(150.0);
+    // final appleAnimationComponent = SpriteAnimationComponent(
+    //   animation: appleAnimation,
+    //   size: spriteSize,
+    // );
+    // appleAnimationComponent.x = 480;
+    // appleAnimationComponent.y = 180;
 
-    add(animationComponent);
+    //add(appleAnimationComponent);
+    add(Apple()..position = Vector2(480, 190));
+    add(Banana()..position = Vector2(680, 140));
+    add(Orange()..position = Vector2(980, 180));
   }
 }
