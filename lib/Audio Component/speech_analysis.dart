@@ -48,13 +48,18 @@ class _SpeechAnalysisState extends State<SpeechAnalysis> {
   /// the platform returns recognized words.
   void _onSpeechResult(SpeechRecognitionResult result) {
     setState(() {
-      var test = HeroCharacter.currentPosition;
-      log('$test');
+      var heroPos = HeroCharacter.currentPosition;
+      log('$heroPos');
 
       _pronounciationResult = result.recognizedWords;
 
-      if (result.recognizedWords == "Apple.") {
-        _pronounciationResult = "correct";
+      if (heroPos!.x < 500) {
+        if (result.recognizedWords == "Apple" ||
+            result.recognizedWords == "apple") {
+          _pronounciationResult = "correct";
+        } else {
+          _pronounciationResult = "try again";
+        }
       } else {
         _pronounciationResult = "try again";
       }
@@ -100,7 +105,7 @@ class _SpeechAnalysisState extends State<SpeechAnalysis> {
                     ))),
             Padding(
               padding: EdgeInsets.all(16),
-              child: Text(_speechToText.isListening ? _lastWords : 'test',
+              child: Text(_speechToText.isListening ? _lastWords : '',
                   style: const TextStyle(color: Colors.white, fontSize: 20)),
             ),
             Align(
