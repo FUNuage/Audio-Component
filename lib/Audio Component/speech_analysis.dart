@@ -1,6 +1,11 @@
+import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+
+import 'dart:developer';
+
+import '../Hero/hero_character.dart';
 
 class SpeechAnalysis extends StatefulWidget {
   const SpeechAnalysis({Key? key}) : super(key: key);
@@ -15,7 +20,7 @@ class _SpeechAnalysisState extends State<SpeechAnalysis> {
   String _lastWords = '';
   String _pronounciationResult = '';
   int _symbolNumber = 0;
-  var symbolNames = ['cat', 'dog', 'pig'];
+  Vector2? position;
 
   @override
   void initState() {
@@ -29,16 +34,11 @@ class _SpeechAnalysisState extends State<SpeechAnalysis> {
     setState(() {});
   }
 
-  /// Each time to start a speech recognition session
   void _startListening() async {
     await _speechToText.listen(onResult: _onSpeechResult);
     setState(() {});
   }
 
-  /// Manually stop the active speech recognition session
-  /// Note that there are also timeouts that each platform enforces
-  /// and the SpeechToText plugin supports setting timeouts on the
-  /// listen method.
   void _stopListening() async {
     await _speechToText.stop();
     setState(() {});
@@ -48,24 +48,33 @@ class _SpeechAnalysisState extends State<SpeechAnalysis> {
   /// the platform returns recognized words.
   void _onSpeechResult(SpeechRecognitionResult result) {
     setState(() {
-      _lastWords = result.recognizedWords;
+      var test = HeroCharacter.currentPosition;
+      log('$test');
 
-      if (result.finalResult) {
-        if (_lastWords == symbolNames[_symbolNumber]) {
-          _pronounciationResult = '';
-          _nextQuestion();
-        } else {
-          _pronounciationResult = 'try again';
-        }
+      _pronounciationResult = result.recognizedWords;
+
+      if (result.recognizedWords == "Apple.") {
+        _pronounciationResult = "correct";
+      } else {
+        _pronounciationResult = "try again";
       }
+
+      _lastWords = result.recognizedWords;
+      // if (result.finalResult) {
+      //   if (_lastWords == 'Apple.') {
+      //     _pronounciationResult = 'well done';
+      //   } else {
+      //     _pronounciationResult = 'try again';
+      //   }
+      // }
     });
   }
 
-  void _nextQuestion() {
-    setState(() {
-      _symbolNumber = _symbolNumber + 1;
-    });
-  }
+  // void _nextQuestion() {
+  //   setState(() {
+  //     _symbolNumber = _symbolNumber + 1;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -91,23 +100,14 @@ class _SpeechAnalysisState extends State<SpeechAnalysis> {
                     ))),
             Padding(
               padding: EdgeInsets.all(16),
-              child: Text(_speechToText.isListening ? '$_lastWords' : '',
+              child: Text(_speechToText.isListening ? _lastWords : 'test',
                   style: const TextStyle(color: Colors.white, fontSize: 20)),
             ),
             Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                      _speechEnabled
-                          ? '(Speech is available)'
-                          : '(Speech not available)',
-                      style: const TextStyle(color: Colors.grey, fontSize: 16)),
-                )),
-            // Text(
-            //   _pronounciationResult,
-            //   style: const TextStyle(color: Colors.white, fontSize: 50),
-            // ),
+              alignment: Alignment.bottomRight,
+              child: Text(_pronounciationResult,
+                  style: const TextStyle(color: Colors.grey, fontSize: 16)),
+            ),
           ],
         ));
   }

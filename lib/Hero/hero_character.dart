@@ -2,6 +2,8 @@ import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame/game.dart';
 
+import 'dart:developer';
+
 import 'direction.dart';
 
 class HeroCharacter<T extends FlameGame> extends SpriteAnimationComponent
@@ -12,6 +14,8 @@ class HeroCharacter<T extends FlameGame> extends SpriteAnimationComponent
   late final SpriteAnimation _walkLeftAnimation;
   late final SpriteAnimation _walkRightAnimation;
   SpriteAnimation? _standingAnimation;
+
+  static Vector2? currentPosition;
 
   HeroCharacter()
       : super(
@@ -80,9 +84,11 @@ class HeroCharacter<T extends FlameGame> extends SpriteAnimationComponent
 
   void moveLeft(double delta) {
     position.add(Vector2(delta * -_playerSpeed, 0));
+    currentPosition = position;
   }
 
   void moveRight(double delta) {
     position.add(Vector2(delta * _playerSpeed, 0));
+    currentPosition = position;
   }
 }
