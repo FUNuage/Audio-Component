@@ -53,9 +53,10 @@ class _SpeechAnalysisState extends State<SpeechAnalysis> {
 
       _pronounciationResult = result.recognizedWords;
 
-      if (heroPos!.x < 500) {
+      if (heroPos!.x < 580) {
         if (result.recognizedWords == "Apple" ||
-            result.recognizedWords == "apple") {
+            result.recognizedWords == "apple" ||
+            result.recognizedWords == "Apple.") {
           _pronounciationResult = "correct";
         } else {
           _pronounciationResult = "try again";
